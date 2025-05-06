@@ -3,6 +3,7 @@ import pandas as pd
 from typing import Callable
 from scipy.stats import shapiro, levene, ttest_ind,ks_2samp, chi2_contingency
 
+
 # Function to decide which test to run for continuous data
 def test_cont(orig: pd.DataFrame, gen: pd.DataFrame, col: str):
     # Shapiro wilks test is done to assess normality
@@ -35,9 +36,6 @@ def chi_squared_test(orig, gen, column):
     result = "The distributions are similar (desired result)" if p > 0.05 else "Different distributions (not good)"
     print(f"Chi-Squared Test {column}: \nChi2-statistic = {stat}, p-value = {p}\n{result}" )
 
-import pandas as pd
-from scipy.stats import shapiro, levene, ttest_ind, ks_2samp, chi2_contingency
-from typing import Callable
 
 def test_n(df: pd.DataFrame, gen: Callable[[], pd.DataFrame], n: int = 1000):
     results = []

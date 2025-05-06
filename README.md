@@ -1,25 +1,25 @@
 # PhD position @ BTH coding Assignment
 This is my, Vincent Honar's, solution to the coding task. I decided to approach it using two methods:
   1. Using a purely statistical approach
-  2. Using a generator and more AI aligned method.
+  2. Using a generator and a more AI-aligned method.
 
-During the implementation of this task the following assumption(s) were made:
-  1. The independence of the variables was known (could be determined easily using covariance, in a scenario where I am not aware of the distribution obviously data exploration would be the first step)
+During the implementation of this task, the following assumption(s) were made:
+  1. The independence of the variables was known (could be determined easily using covariance. In a scenario where I am unaware of the distribution, data exploration would naturally be the first step)
 
 # Evaluation method
-To evaluate the models, statistical tests and visual aids were employed. A shapiro-wilks test and levene's test are conducted on the two continous variables to decide whether a parametric or non-parametric test is used. Levene's test has a null hypothesis which states that the populations have equal variance, therefore a p-value less than 0.05 means that there is unequal variance. A p-value of less than 0.05 for the Shapiro-wilks test would reject the null hypothesis that the data is normally distributed. If either of these null hypothesis are rejected then a parametric Kolmogorov-smirnow test is employed. In the case where neither null hypothesis is rejected, a ttest is used. 
+To evaluate the models, statistical tests and visual aids were employed. A Shapiro-Wilk test and Levene's test are conducted on the two continuous variables to decide whether a parametric or non-parametric test is used. Levene's test has a null hypothesis that states that the populations have equal variance. Therefore, a p-value less than 0.05 means that there is unequal variance. A p-value of less than 0.05 for the Shapiro-Wilk test would reject the null hypothesis that the data is normally distributed. If either of these null hypotheses is rejected, then a parametric Kolmogorov-Smirnov test is employed. In the case where neither null hypothesis is rejected, a t-test is used. 
 
 The categorical variable Category1 is tested using the Chi-square test. 
 
-All models are tested 1000 times and their results are presented in aggregate. The model outputs are visualised through two histograms and one barplot. 
+All models are tested 1000 times, and their results are presented in aggregate. The model outputs are visualised through two histograms and one bar plot. 
 # Results
-Both the montecarlo simulation and gmm manage to successfully replicate the data. 
+Both the Monte Carlo simulation and GMM manage to replicate the data successfully. 
 ## GMM
-Only one, out of a thousand, GMM model does not succeed in passing either the parametric or non-parametric test. 
+Only one out of a thousand GMM models fail in passing either the parametric or non-parametric test. 
 
-### Summary Statistics for the GMM
+### Table 1. Summary Statistics for the GMM.
 
-| Metric            | Value1_shapiro_p | Value1_levene_p | Value1_p | Value2_shapiro_p | Value2_levene_p | Value2_p | Category1p |
+| Metric            | Value1_shapiro_p | Value1_levene_p | Value1_p | Value2_shapiro_p | Value2_levene_p | Value2_p | Category1_p |
 |------------------|------------------------|------------------|----------|------------------------|------------------|----------|-------------|
 | **count**        | 1000                   | 1000             | 1000     | 1000                   | 1000             | 1000     | 1000        |
 | **mean**         | 0.0652                 | 0.6597           | 0.7098   | 0.2577                 | 0.5861           | 0.6145   | 0.6277      |
@@ -32,7 +32,7 @@ Only one, out of a thousand, GMM model does not succeed in passing either the pa
 
 ---
 
-### Number of Fails (p < 0.05) for the GMM
+### Table 2. Number of Fails (p < 0.05) for the GMM.
 
 | Test                    | Fails |
 |-------------------------|--------|
@@ -42,13 +42,13 @@ Only one, out of a thousand, GMM model does not succeed in passing either the pa
 | Value2_shapiro_gen_p    | 274    |
 | Value2_levene_p         | 3      |
 | Value2_p                | 1      |
-| Category1p              | 0      |
+| Category1_p              | 0      |
 
 ## Montecarlo
-The montecarlo method perfomed marginally worse with a total of four distinct trials failing to pass their statistical tests. 
-### Summary Statistics for the Montecarlo simulation
+The Monte Carlo method performed marginally worse with a total of four distinct trials failing to pass their statistical tests. 
+### Table 3. Summary Statistics for the Monte Carlo simulation.
 
-| Metric    | Value1_shapiro_p | Value1_levene_p | Value1_p | Value2_shapiro_p | Value2_levene_p | Value2_p | Category1p |
+| Metric    | Value1_shapiro_p | Value1_levene_p | Value1_p | Value2_shapiro_p | Value2_levene_p | Value2_p | Category1_p |
 |-----------|-----------------------|------------------|----------|------------------------|------------------|----------|-------------|
 | **count** | 1000.0000             | 1000.0000        | 1000.0000 | 1000.0000              | 1000.0000        | 1000.0000 | 1000.0000   |
 | **mean**  | 0.1411                | 0.3909           | 0.6763   | 0.1829                 | 0.3866           | 0.6651   | 0.8380      |
@@ -61,7 +61,7 @@ The montecarlo method perfomed marginally worse with a total of four distinct tr
 
 ---
 
-### Number of Fails (p < 0.05) for the Montecarlo simulation
+### Table 4. Number of Fails (p < 0.05) for the Montecarlo simulation.
 
 | Test                   | Fails |
 |------------------------|--------|
@@ -71,8 +71,14 @@ The montecarlo method perfomed marginally worse with a total of four distinct tr
 | Value2_shapiro_gen_p   | 281    |
 | Value2_levene_p        | 39     |
 | Value2_p               | 1      |
-| Category1p             | 0      |
+| Category1_p             | 0      |
 
-## Visual aid
+## Visual aid 
 
-![My diagram](figure1.png)
+![Figure 1. Results of generation methods](Figure_1.png)
+Figure 1. Results of the generation methods. 
+
+While the distributions are marginally visually dissimilar, the shape of the original data is assumed with a slight preference towards values in the lower bounds. Both models overrepresent category C while underrepresenting A and B. The Monte Carlo samples E more frequently while the GMM has a similar tendency for D. 
+
+# Conclusions
+Both approaches adequately capture the nature of the data, with the GMM outperforming the Monte Carlo-based simulation.

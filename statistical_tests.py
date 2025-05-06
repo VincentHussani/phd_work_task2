@@ -35,20 +35,21 @@ def chi_squared_test(orig, gen, column):
     result = "The distributions are similar (desired result)" if p > 0.05 else "Different distributions (not good)"
     print(f"Chi-Squared Test {column}: \nChi2-statistic = {stat}, p-value = {p}\n{result}" )
 
-# Redefining the function now that all imports are available
+import pandas as pd
+from scipy.stats import shapiro, levene, ttest_ind, ks_2samp, chi2_contingency
+from typing import Callable
+
 def test_n(df: pd.DataFrame, gen: Callable[[], pd.DataFrame], n: int = 1000):
     results = []
 
     for i in range(n):
         df_gen = gen()
-
         row = {}
 
         for col in ["Value1", "Value2"]:
             shapiro_orig_p = shapiro(df[col]).pvalue
             shapiro_gen_p = shapiro(df_gen[col]).pvalue
             normal = shapiro_orig_p > 0.05 and shapiro_gen_p > 0.05
-            row[f"{col}_shapiro_orig_p"] = shapiro_orig_p
             row[f"{col}_shapiro_gen_p"] = shapiro_gen_p
 
             levene_p = levene(df[col], df_gen[col]).pvalue
@@ -61,7 +62,7 @@ def test_n(df: pd.DataFrame, gen: Callable[[], pd.DataFrame], n: int = 1000):
                 ks_p = ks_2samp(df[col], df_gen[col]).pvalue
                 row[f"{col}_p"] = ks_p
 
-        # Chi-squared test for Category1 due to its categorical nature
+        # Chi-squared test for Category1
         cat_orig = df["Category1"].value_counts().sort_index()
         cat_gen = df_gen["Category1"].value_counts().reindex(cat_orig.index, fill_value=0)
         chi2_p = chi2_contingency(pd.DataFrame([cat_orig, cat_gen]))[1]
@@ -70,5 +71,11 @@ def test_n(df: pd.DataFrame, gen: Callable[[], pd.DataFrame], n: int = 1000):
         results.append(row)
 
     results_df = pd.DataFrame(results)
+    print("Summary statistics:")
     print(results_df.describe())
+
+    print("\nNumber of fails (p < 0.05):")
+    fail_counts = (results_df < 0.05).sum()
+    print(fail_counts)
+
     return results_df

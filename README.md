@@ -75,4 +75,4 @@ The montecarlo method perfomed marginally worse with a total of four distinct tr
 
 ## Visual aid
 
-
+![My diagram](figure1.png)

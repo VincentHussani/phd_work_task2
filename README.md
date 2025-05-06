@@ -81,4 +81,4 @@ Figure 1. Results of the generation methods.
 While the distributions are marginally visually dissimilar, the shape of the original data is assumed with a slight preference towards values in the lower bounds. Both models overrepresent category C while underrepresenting A and B. The Monte Carlo samples E more frequently while the GMM has a similar tendency for D. 
 
 # Conclusion
-Both approaches adequately capture the nature of the data, with the GMM outperforming the Monte Carlo-based simulation.
+Both approaches capture the nature of the data, with the GMM outperforming the Monte Carlo-based simulation.
